@@ -2,6 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
 import HomeScreen from "../screens/home/home.screen";
 import QuizScreen from "../screens/quiz/quiz.screen";
+import SettingScreen from "../screens/setting/setting.screen";
 
 import { createStackNavigator } from "@react-navigation/stack";
 import { Platform } from "react-native";
@@ -19,8 +20,8 @@ const RootLayout = () => {
         }}
       >
         <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
-
         <Stack.Screen name="Quiz" component={QuizScreen}></Stack.Screen>
+        <Stack.Screen name="Setting" component={SettingScreen}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

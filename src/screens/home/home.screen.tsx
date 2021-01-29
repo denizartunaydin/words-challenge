@@ -4,12 +4,14 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 import { connect } from "react-redux";
 import CategoryItem from "../../components/wg.category.component";
-import { advenced } from "../../words/advenced";
+import { advanced } from "../../words/advanced";
 import { beginner } from "../../words/beginner";
 import { elementary } from "../../words/elementary";
 import { intermediate } from "../../words/intermediate";
 import { preIntermediate } from "../../words/pre-intermediate";
 import { upperIntermediate } from "../../words/upper-intermediate";
+
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const HomeScreen = (props: Props) => {
   const navigation = useNavigation();
@@ -24,6 +26,28 @@ const HomeScreen = (props: Props) => {
           ...styles.center,
         }}
       >
+        <View style={{ flexDirection: "row", marginBottom: 20 }}>
+          <Text style={{ color: "#fff", fontSize: 30 }}>Words Challenge</Text>
+          <View
+            style={{
+              alignItems: "flex-end",
+              justifyContent: "flex-end",
+              flex: 1,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Setting");
+              }}
+              style={{
+                borderRadius: 10,
+                padding: 10,
+              }}
+            >
+              <MaterialCommunityIcons name="cog" color={"#fff"} size={20} />
+            </TouchableOpacity>
+          </View>
+        </View>
         <CategoryItem
           title="Beginner"
           totalWords={beginner.length}
@@ -71,7 +95,7 @@ const HomeScreen = (props: Props) => {
         ></CategoryItem>
         <CategoryItem
           title="Advanced"
-          totalWords={advenced.length}
+          totalWords={advanced.length}
           learnedWords={0}
           onPress={() => {
             navigation.navigate("Quiz");
