@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/WordGame.iml" filepath="$PROJECT_DIR$/.idea/modules/WordGame.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/WordGame.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/WordGame.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-301766286/WordGame.react-native-community_async-storage.iml" filepath="$PROJECT_DIR$/.idea/modules/-301766286/WordGame.react-native-community_async-storage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1851753233/WordGame.react-native-community_masked-view.iml" filepath="$PROJECT_DIR$/.idea/modules/-1851753233/WordGame.react-native-community_masked-view.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1504483640/WordGame.react-native-gesture-handler.iml" filepath="$PROJECT_DIR$/.idea/modules/-1504483640/WordGame.react-native-gesture-handler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1454499244/WordGame.react-native-reanimated.iml" filepath="$PROJECT_DIR$/.idea/modules/-1454499244/WordGame.react-native-reanimated.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2048398031/WordGame.react-native-safe-area-context.iml" filepath="$PROJECT_DIR$/.idea/modules/-2048398031/WordGame.react-native-safe-area-context.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1583356279/WordGame.react-native-screens.iml" filepath="$PROJECT_DIR$/.idea/modules/-1583356279/WordGame.react-native-screens.iml" />
+    </modules>
+  </component>
+</project>
