@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 import { connect } from "react-redux";
@@ -12,8 +12,14 @@ import { preIntermediate } from "../../words/pre-intermediate";
 import { upperIntermediate } from "../../words/upper-intermediate";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { DbSettings } from "../core/db";
+import { QuizService } from "../quiz/store/quiz.service";
 
 const HomeScreen = (props: Props) => {
+  useEffect(() => {
+    DbSettings.createDatabase();
+  }, []);
+
   const navigation = useNavigation();
 
   return (
@@ -37,6 +43,7 @@ const HomeScreen = (props: Props) => {
           >
             <TouchableOpacity
               onPress={() => {
+                props.getAllWords();
                 navigation.navigate("Setting");
               }}
               style={{
@@ -109,9 +116,13 @@ const HomeScreen = (props: Props) => {
 
 const mapStateToProps = ({}: {}) => ({});
 
-const mapDispatchToProps = (dispatch: any) => ({});
+const mapDispatchToProps = (dispatch: any) => ({
+  getAllWords: () => dispatch(QuizService.getAllWords()),
+});
 
-type Props = {};
+type Props = {
+  getAllWords: () => any;
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
 

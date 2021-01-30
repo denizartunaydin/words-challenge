@@ -6,6 +6,7 @@ export interface QuizStateModel {
   wrongWord: string;
   choiceOne: string;
   choiceTwo: string;
+  dayWords: number;
 }
 
 const initialState: QuizStateModel = {
@@ -14,6 +15,7 @@ const initialState: QuizStateModel = {
   wrongWord: "",
   choiceOne: "",
   choiceTwo: "",
+  dayWords: 5,
 };
 
 export function quizReducer(

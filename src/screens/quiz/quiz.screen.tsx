@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 
 import { connect } from "react-redux";
 import AnswerItem from "../../components/wg.answer.component";
@@ -10,14 +10,17 @@ import { setData } from "./store/quiz.action";
 import { QuizStateModel } from "./store/quiz.store";
 
 const QuizScreen = (props: Props) => {
-  const data = [
-    { en: "Hello", tr: "Merhaba" },
-    { en: "Mom", tr: "Anne" },
-  ];
+  useEffect(() => {
+    newWordGenerate();
+  }, []);
 
   const [wrong, setWrong] = useState({
     button1: null,
     button2: null,
+  });
+
+  const [wordCount, setWordCount] = useState({
+    wordCountField: 0,
   });
 
   function learnedWord() {
@@ -30,37 +33,61 @@ const QuizScreen = (props: Props) => {
     // getItem(STORAGE_KEYS.WORDS).then((res) => {
     //   console.log(res);
     // });
-  }
 
-  useEffect(() => {
-    newWordGenerate();
-  }, []);
+    //setState olacak
+
+    setWordCount({
+      ...wordCount,
+      wordCountField: wordCount.wordCountField + 1,
+    });
+  }
 
   function getRandomInt(max: number) {
     return Math.floor(Math.random() * Math.floor(max));
   }
 
   function newWordGenerate() {
-    const trueData = beginner[getRandomInt(beginner.length)];
-    const falseData = beginner[getRandomInt(beginner.length)];
-
-    if (getRandomInt(10) % 2 === 0) {
-      props.setData({
-        selectWordEng: trueData.en,
-        selectWordTr: trueData.tr,
-        choiceOne: trueData.tr,
-        choiceTwo: falseData.tr,
-      });
+    if (props.dayWords <= wordCount.wordCountField) {
+      Alert.alert(
+        "Uyarı",
+        "Günlük Kelime Hedefine Ulaştın",
+        [
+          {
+            text: "Evet",
+            onPress: () => {
+              //navigation.goBack();
+            },
+          },
+          {
+            text: "Hayır",
+            onPress: () => {},
+            style: "cancel",
+          },
+        ],
+        { cancelable: false }
+      );
     } else {
-      props.setData({
-        selectWordEng: trueData.en,
-        selectWordTr: trueData.tr,
-        choiceOne: falseData.tr,
-        choiceTwo: trueData.tr,
-      });
-    }
+      const trueData = beginner[getRandomInt(beginner.length)];
+      const falseData = beginner[getRandomInt(beginner.length)];
 
-    setWrong({ ...wrong, button1: null, button2: null });
+      if (getRandomInt(10) % 2 === 0) {
+        props.setData({
+          selectWordEng: trueData.en,
+          selectWordTr: trueData.tr,
+          choiceOne: trueData.tr,
+          choiceTwo: falseData.tr,
+        });
+      } else {
+        props.setData({
+          selectWordEng: trueData.en,
+          selectWordTr: trueData.tr,
+          choiceOne: falseData.tr,
+          choiceTwo: trueData.tr,
+        });
+      }
+
+      setWrong({ ...wrong, button1: null, button2: null });
+    }
   }
 
   return (
@@ -126,6 +153,7 @@ const mapStateToProps = ({ quiz }: { quiz: QuizStateModel }) => ({
   wrongWord: quiz.wrongWord,
   choiceOne: quiz.choiceOne,
   choiceTwo: quiz.choiceTwo,
+  dayWords: quiz.dayWords,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -138,6 +166,7 @@ type Props = {
   wrongWord: string;
   choiceOne: string;
   choiceTwo: string;
+  dayWords: number;
   setData: (payload: any) => any;
 };
 
