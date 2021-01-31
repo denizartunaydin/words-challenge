@@ -14,10 +14,11 @@ import { upperIntermediate } from "../../words/upper-intermediate";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { DbSettings } from "../core/db";
 import { QuizService } from "../quiz/store/quiz.service";
+import { setCategory } from "../quiz/store/quiz.action";
 
 const HomeScreen = (props: Props) => {
   useEffect(() => {
-    DbSettings.createDatabase();
+    props.createDatabase();
   }, []);
 
   const navigation = useNavigation();
@@ -43,8 +44,8 @@ const HomeScreen = (props: Props) => {
           >
             <TouchableOpacity
               onPress={() => {
-                props.getAllWords();
-                navigation.navigate("Setting");
+                props.learnLevelCount();
+                //navigation.navigate("Setting");
               }}
               style={{
                 borderRadius: 10,
@@ -60,6 +61,7 @@ const HomeScreen = (props: Props) => {
           totalWords={beginner.length}
           learnedWords={0}
           onPress={() => {
+            props.setCategory("A1");
             navigation.navigate("Quiz");
           }}
           style={{ backgroundColor: "#AFA2F9" }}
@@ -69,6 +71,7 @@ const HomeScreen = (props: Props) => {
           totalWords={elementary.length}
           learnedWords={0}
           onPress={() => {
+            props.setCategory("A2");
             navigation.navigate("Quiz");
           }}
           style={{ backgroundColor: "#17B8DA" }}
@@ -78,6 +81,7 @@ const HomeScreen = (props: Props) => {
           totalWords={preIntermediate.length}
           learnedWords={0}
           onPress={() => {
+            props.setCategory("B1");
             navigation.navigate("Quiz");
           }}
           style={{ backgroundColor: "#BBCD2B" }}
@@ -87,6 +91,7 @@ const HomeScreen = (props: Props) => {
           totalWords={intermediate.length}
           learnedWords={0}
           onPress={() => {
+            props.setCategory("B2");
             navigation.navigate("Quiz");
           }}
           style={{ backgroundColor: "#f6cd61" }}
@@ -96,6 +101,7 @@ const HomeScreen = (props: Props) => {
           totalWords={upperIntermediate.length}
           learnedWords={0}
           onPress={() => {
+            props.setCategory("C1");
             navigation.navigate("Quiz");
           }}
           style={{ backgroundColor: "#fe8a71" }}
@@ -105,6 +111,7 @@ const HomeScreen = (props: Props) => {
           totalWords={advanced.length}
           learnedWords={0}
           onPress={() => {
+            props.setCategory("C2");
             navigation.navigate("Quiz");
           }}
           style={{ backgroundColor: "#E770D4" }}
@@ -118,10 +125,19 @@ const mapStateToProps = ({}: {}) => ({});
 
 const mapDispatchToProps = (dispatch: any) => ({
   getAllWords: () => dispatch(QuizService.getAllWords()),
+  getCategoryWords: (level: string) =>
+    dispatch(QuizService.getCategoryWords(level)),
+  setCategory: (category: string) => dispatch(setCategory(category)),
+  createDatabase: () => dispatch(DbSettings.createDatabase()),
+  learnLevelCount: () => dispatch(QuizService.learnLevelCount()),
 });
 
 type Props = {
   getAllWords: () => any;
+  getCategoryWords: (level: string) => any;
+  setCategory: (category: string) => any;
+  createDatabase: () => any;
+  learnLevelCount: () => any;
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

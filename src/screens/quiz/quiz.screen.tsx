@@ -1,17 +1,18 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 
 import { connect } from "react-redux";
 import AnswerItem from "../../components/wg.answer.component";
-import CategoryItem from "../../components/wg.category.component";
-import { getItem, setItem, STORAGE_KEYS } from "../../storage/storage.service";
-import { beginner } from "../../words/beginner";
 import { setData } from "./store/quiz.action";
+import { QuizService } from "./store/quiz.service";
 import { QuizStateModel } from "./store/quiz.store";
 
 const QuizScreen = (props: Props) => {
+  const navigation = useNavigation();
+
   useEffect(() => {
-    newWordGenerate();
+    wordGenerate();
   }, []);
 
   const [wrong, setWrong] = useState({
@@ -20,74 +21,74 @@ const QuizScreen = (props: Props) => {
   });
 
   const [wordCount, setWordCount] = useState({
-    wordCountField: 0,
+    wordCountField: 1,
   });
 
-  function learnedWord() {
-    // let words: any;
-    // words.push({
-    //   en: props.selectWordEng,
-    //   tr: props.selectWordTr,
-    // });
-    // setItem(STORAGE_KEYS.WORDS, words);
-    // getItem(STORAGE_KEYS.WORDS).then((res) => {
-    //   console.log(res);
-    // });
+  const [learnedWord, setlearnedWord] = useState(false);
 
-    //setState olacak
-
-    setWordCount({
-      ...wordCount,
-      wordCountField: wordCount.wordCountField + 1,
-    });
-  }
-
-  function getRandomInt(max: number) {
-    return Math.floor(Math.random() * Math.floor(max));
-  }
-
-  function newWordGenerate() {
+  function learnWord() {
     if (props.dayWords <= wordCount.wordCountField) {
       Alert.alert(
         "Uyarı",
-        "Günlük Kelime Hedefine Ulaştın",
+        "Günlük kelime hedefine ulaştın. Öğrendiğin kelimeleri tekrar etmek istiyor musun? ",
         [
           {
             text: "Evet",
             onPress: () => {
-              //navigation.goBack();
+              setlearnedWord(true);
             },
           },
           {
             text: "Hayır",
-            onPress: () => {},
+            onPress: () => {
+              navigation.goBack();
+            },
             style: "cancel",
           },
         ],
         { cancelable: false }
       );
-    } else {
-      const trueData = beginner[getRandomInt(beginner.length)];
-      const falseData = beginner[getRandomInt(beginner.length)];
+    }
 
-      if (getRandomInt(10) % 2 === 0) {
-        props.setData({
-          selectWordEng: trueData.en,
-          selectWordTr: trueData.tr,
-          choiceOne: trueData.tr,
-          choiceTwo: falseData.tr,
-        });
+    setWordCount({
+      ...wordCount,
+      wordCountField: wordCount.wordCountField + 1,
+    });
+
+    props.learnWord(props.selectWordEng);
+  }
+
+  function wordGenerate() {
+    if (learnedWord === true) {
+      props.getDayWords(props.selectCategory, 1);
+    } else {
+      props.getDayWords(props.selectCategory, 0);
+    }
+    setWrong({ ...wrong, button1: null, button2: null });
+  }
+
+  function buttonStatus(button: string, choice: string) {
+    if (props.selectWordTr === choice) {
+      if (button === "button1") {
+        setWrong({ ...wrong, button1: false });
       } else {
-        props.setData({
-          selectWordEng: trueData.en,
-          selectWordTr: trueData.tr,
-          choiceOne: falseData.tr,
-          choiceTwo: trueData.tr,
-        });
+        setWrong({ ...wrong, button2: false });
       }
 
-      setWrong({ ...wrong, button1: null, button2: null });
+      if (learnedWord === false) {
+        learnWord();
+      }
+    } else {
+      if (button === "button1") {
+        setWrong({ ...wrong, button1: true });
+      } else {
+        setWrong({ ...wrong, button2: true });
+      }
     }
+
+    setTimeout(() => {
+      wordGenerate();
+    }, 500);
   }
 
   return (
@@ -108,16 +109,7 @@ const QuizScreen = (props: Props) => {
 
         <AnswerItem
           onPress={() => {
-            if (props.selectWordTr === props.choiceOne) {
-              setWrong({ ...wrong, button1: false });
-              learnedWord();
-            } else {
-              setWrong({ ...wrong, button1: true });
-            }
-
-            setTimeout(() => {
-              newWordGenerate();
-            }, 500);
+            buttonStatus("button1", props.choiceOne);
           }}
           title={props.choiceOne}
           isWrong={wrong.button1}
@@ -127,16 +119,7 @@ const QuizScreen = (props: Props) => {
 
         <AnswerItem
           onPress={() => {
-            if (props.selectWordTr === props.choiceTwo) {
-              setWrong({ ...wrong, button2: false });
-              learnedWord();
-            } else {
-              setWrong({ ...wrong, button2: true });
-            }
-
-            setTimeout(() => {
-              newWordGenerate();
-            }, 500);
+            buttonStatus("button2", props.choiceTwo);
           }}
           title={props.choiceTwo}
           isWrong={wrong.button2}
@@ -150,14 +133,17 @@ const QuizScreen = (props: Props) => {
 const mapStateToProps = ({ quiz }: { quiz: QuizStateModel }) => ({
   selectWordEng: quiz.selectWordEng,
   selectWordTr: quiz.selectWordTr,
-  wrongWord: quiz.wrongWord,
   choiceOne: quiz.choiceOne,
   choiceTwo: quiz.choiceTwo,
   dayWords: quiz.dayWords,
+  selectCategory: quiz.category,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   setData: (payload: any) => dispatch(setData(payload)),
+  getDayWords: (category: string, learned: number) =>
+    dispatch(QuizService.getDayWords(category, learned)),
+  learnWord: (word: string) => dispatch(QuizService.learnWord(word)),
 });
 
 type Props = {
@@ -166,8 +152,11 @@ type Props = {
   wrongWord: string;
   choiceOne: string;
   choiceTwo: string;
+  selectCategory: string;
   dayWords: number;
   setData: (payload: any) => any;
+  getDayWords: (category: string, learned: number) => any;
+  learnWord: (word: string) => any;
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuizScreen);

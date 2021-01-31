@@ -1,41 +1,47 @@
 import SQLite from "react-native-sqlite-storage";
+import { QuizService } from "../quiz/store/quiz.service";
 
 const createDatabase = () => {
-  SQLite.enablePromise(true);
-  return SQLite.openDatabase({
-    name: "wordsChallenge.db",
-    location: "Documents",
-  })
-    .then((dbResult: any) => {
-      if (dbResult && dbResult.dbname === "wordsChallenge.db") {
-        console.log("Database opened:", dbResult);
-        createTables();
-      }
+  return (dispatch: any) => {
+    SQLite.enablePromise(true);
+    return SQLite.openDatabase({
+      name: "wordsChallenge.db",
+      location: "Documents",
     })
-    .catch((e) => {});
+      .then((dbResult: any) => {
+        console.log("df");
+        if (dbResult && dbResult.dbname === "wordsChallenge.db") {
+          dispatch(createTables());
+        }
+      })
+      .catch((e) => {});
+  };
 };
 
 const createTables = () => {
-  SQLite.openDatabase({
-    name: "wordsChallenge.db",
-    location: "Documents",
-  }).then((resDb) => {
-    resDb.transaction(function (tx) {
-      tx.executeSql(
-        `CREATE TABLE words(
+  return (dispatch: any) => {
+    SQLite.openDatabase({
+      name: "wordsChallenge.db",
+      location: "Documents",
+    }).then((resDb) => {
+      resDb.transaction(function (tx) {
+        tx.executeSql(
+          `CREATE TABLE words(
             id       TEXT PRIMARY KEY  NOT NULL,
             en       TEXT  NOT NULL,
             tr       TEXT  NOT NULL,
             level    TEXT,
             learned  BOOLEAN
           );`,
-        [],
-        (tx, results) => {
-          console.log("Tablo ", results);
-        }
-      );
+          [],
+          (tx, results) => {
+            console.log("Tablo ", results);
+            dispatch(QuizService.saveAllWords());
+          }
+        );
+      });
     });
-  });
+  };
 };
 
 const dropTable = () => {
@@ -54,4 +60,5 @@ const dropTable = () => {
 export const DbSettings = {
   createDatabase: createDatabase,
   dropTable: dropTable,
+  createTables: createTables,
 };

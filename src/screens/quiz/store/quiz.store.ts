@@ -1,21 +1,21 @@
-import { HomeActionTypes, SET_DATA } from "./quiz.action";
+import { HomeActionTypes, SET_CATEGORY, SET_DATA } from "./quiz.action";
 
 export interface QuizStateModel {
   selectWordEng: string;
   selectWordTr: string;
-  wrongWord: string;
   choiceOne: string;
   choiceTwo: string;
   dayWords: number;
+  category: string;
 }
 
 const initialState: QuizStateModel = {
   selectWordEng: "",
   selectWordTr: "",
-  wrongWord: "",
   choiceOne: "",
   choiceTwo: "",
   dayWords: 5,
+  category: "",
 };
 
 export function quizReducer(
@@ -28,9 +28,15 @@ export function quizReducer(
         ...state,
         selectWordEng: action.payload.selectWordEng,
         selectWordTr: action.payload.selectWordTr,
-        wrongWord: action.payload.wrongWord,
         choiceOne: action.payload.choiceOne,
         choiceTwo: action.payload.choiceTwo,
+      };
+
+    case SET_CATEGORY:
+      return {
+        ...state,
+
+        category: action.payload,
       };
 
     default:
