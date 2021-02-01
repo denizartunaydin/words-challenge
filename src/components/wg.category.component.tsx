@@ -34,10 +34,10 @@ const CategoryItem = (props: Props) => {
             {props.title}
           </Text>
           <Text style={{ color: "#fff", fontSize: 15 }}>
-            Toplam Kelime Sayısı: {props.totalWords}
+            Toplam Kelime: {props.totalWords}
           </Text>
           <Text style={{ color: "#fff", fontSize: 15 }}>
-            Öğrenilen Kelime Sayısı: {props.learnedWords}
+            Öğrenilen Kelime: {props.learnedWords}
           </Text>
         </View>
       </TouchableOpacity>
