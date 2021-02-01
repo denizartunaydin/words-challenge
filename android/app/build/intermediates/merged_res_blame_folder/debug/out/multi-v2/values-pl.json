@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/rspc/Desktop/WordGame/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-pl/values-pl.xml",
+            "outputFile": "/Users/rspc/Documents/Projects/Words Challenge/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-pl/values-pl.xml",
             "map": [
                 {
                     "source": "/Users/rspc/.gradle/caches/transforms-2/files-2.1/73530a2d0c1df4b3085807c82555ce12/core-1.1.0/res/values-pl/values-pl.xml",

@@ -4,7 +4,7 @@ import { from, identity } from "rxjs";
 import { map, take } from "rxjs/operators";
 import { beginner } from "../../../words/beginner";
 import { elementary } from "../../../words/elementary";
-import { setData } from "./quiz.action";
+import { setData, setLevelCount } from "./quiz.action";
 
 const saveAllWords = () => {
   return (dispatch: any) => {
@@ -218,7 +218,9 @@ const learnLevelCount = () => {
                     const element = result[1].rows.item(index);
                     selectItems.push(element);
                   }
-                  console.log("learnLevelCount", selectItems);
+
+                  dispatch(setLevelCount(selectItems));
+                  //console.log("learnLevelCount", selectItems);
                 }
 
                 return result;

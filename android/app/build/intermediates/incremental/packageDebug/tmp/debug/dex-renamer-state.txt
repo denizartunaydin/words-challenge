@@ -1,4 +1,4 @@
-#Thu Jan 28 10:27:55 EET 2021
-base.0=/Users/rspc/Desktop/WordGame/android/app/build/intermediates/dex/debug/mergeDexDebug/classes.dex
+#Mon Feb 01 15:42:00 EET 2021
+base.0=/Users/rspc/Documents/Projects/Words Challenge/android/app/build/intermediates/dex/debug/mergeDexDebug/classes.dex
 path.0=classes.dex
 renamed.0=classes.dex
