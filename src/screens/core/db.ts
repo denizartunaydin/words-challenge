@@ -9,7 +9,6 @@ const createDatabase = () => {
       location: "Documents",
     })
       .then((dbResult: any) => {
-        console.log("df");
         if (dbResult && dbResult.dbname === "wordsChallenge.db") {
           dispatch(createTables());
         }
@@ -27,11 +26,14 @@ const createTables = () => {
       resDb.transaction(function (tx) {
         tx.executeSql(
           `CREATE TABLE words(
-            id       TEXT PRIMARY KEY  NOT NULL,
-            en       TEXT  NOT NULL,
-            tr       TEXT  NOT NULL,
-            level    TEXT,
-            learned  BOOLEAN
+            id         TEXT PRIMARY KEY  NOT NULL,
+            en         TEXT  NOT NULL,
+            tr         TEXT  NOT NULL,
+            level      TEXT,
+            levelName  TEXT,
+            levelColor TEXT,
+            learned    BOOLEAN
+            
           );`,
           [],
           (tx, results) => {

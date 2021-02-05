@@ -1,5 +1,4 @@
 import {
-  HomeActionTypes,
   QuizActionTypes,
   SET_CATEGORY,
   SET_DATA,
@@ -13,7 +12,7 @@ export interface QuizStateModel {
   choiceTwo: string;
   dayWords: number;
   category: string;
-  levelCount: [];
+  categories: [];
 }
 
 const initialState: QuizStateModel = {
@@ -23,7 +22,7 @@ const initialState: QuizStateModel = {
   choiceTwo: "",
   dayWords: 5,
   category: "",
-  levelCount: [],
+  categories: [],
 };
 
 export function quizReducer(
@@ -43,15 +42,13 @@ export function quizReducer(
     case SET_CATEGORY:
       return {
         ...state,
-
         category: action.payload,
       };
 
     case SET_LEVEL_COUNT:
       return {
         ...state,
-
-        levelCount: action.payload,
+        categories: action.payload,
       };
 
     default:

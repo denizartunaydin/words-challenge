@@ -1,1 +1,1 @@
-export const upperIntermediate = [];
+export const upperIntermediate = [{ en: "Hello", tr: "Merhaba" }];

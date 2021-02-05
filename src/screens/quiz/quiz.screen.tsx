@@ -55,7 +55,7 @@ const QuizScreen = (props: Props) => {
       wordCountField: wordCount.wordCountField + 1,
     });
 
-    //props.learnWord(props.selectWordEng);
+    props.learnWord(props.selectWordEng);
   }
 
   function wordGenerate() {

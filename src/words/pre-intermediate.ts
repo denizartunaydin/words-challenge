@@ -1,1 +1,1 @@
-export const preIntermediate = [];
+export const preIntermediate = [{ en: "Hello", tr: "Merhaba" }];

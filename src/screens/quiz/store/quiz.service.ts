@@ -2,8 +2,12 @@ import { Guid } from "guid-typescript";
 import SQLite from "react-native-sqlite-storage";
 import { from, identity } from "rxjs";
 import { map, take } from "rxjs/operators";
+import { advanced } from "../../../words/advanced";
 import { beginner } from "../../../words/beginner";
 import { elementary } from "../../../words/elementary";
+import { intermediate } from "../../../words/intermediate";
+import { preIntermediate } from "../../../words/pre-intermediate";
+import { upperIntermediate } from "../../../words/upper-intermediate";
 import { setData, setLevelCount } from "./quiz.action";
 
 const saveAllWords = () => {
@@ -20,16 +24,72 @@ const saveAllWords = () => {
             beginner.map((res) => {
               const id: any = Guid.create();
               tx.executeSql(
-                "INSERT INTO words (id,en,tr,level,learned) VALUES  (:id,:en,:tr,:level,:learned)",
-                [id.value, res.en, res.tr, "A1", false]
+                "INSERT INTO words (id,en,tr,level,levelName,levelColor,learned) VALUES  (:id,:en,:tr,:level,:levelName,:levelColor,:learned)",
+                [id.value, res.en, res.tr, "A1", "Beginner", "#AFA2F9", false]
               );
             });
 
             elementary.map((res) => {
               const id: any = Guid.create();
               tx.executeSql(
-                "INSERT INTO words (id,en,tr,level,learned) VALUES  (:id,:en,:tr,:level,:learned)",
-                [id.value, res.en, res.tr, "A2", false]
+                "INSERT INTO words (id,en,tr,level,levelName,levelColor,learned) VALUES  (:id,:en,:tr,:level,:levelName,:levelColor,:learned)",
+                [id.value, res.en, res.tr, "A2", "Elementary", "#17B8DA", false]
+              );
+            });
+
+            preIntermediate.map((res) => {
+              const id: any = Guid.create();
+              tx.executeSql(
+                "INSERT INTO words (id,en,tr,level,levelName,levelColor,learned) VALUES  (:id,:en,:tr,:level,:levelName,:levelColor,:learned)",
+                [
+                  id.value,
+                  res.en,
+                  res.tr,
+                  "B1",
+                  "Pre-Intermediate",
+                  "#BBCD2B",
+                  false,
+                ]
+              );
+            });
+
+            intermediate.map((res) => {
+              const id: any = Guid.create();
+              tx.executeSql(
+                "INSERT INTO words (id,en,tr,level,levelName,levelColor,learned) VALUES  (:id,:en,:tr,:level,:levelName,:levelColor,:learned)",
+                [
+                  id.value,
+                  res.en,
+                  res.tr,
+                  "B2",
+                  "Intermediate",
+                  "#f6cd61",
+                  false,
+                ]
+              );
+            });
+
+            upperIntermediate.map((res) => {
+              const id: any = Guid.create();
+              tx.executeSql(
+                "INSERT INTO words (id,en,tr,level,levelName,levelColor,learned) VALUES  (:id,:en,:tr,:level,:levelName,:levelColor,:learned)",
+                [
+                  id.value,
+                  res.en,
+                  res.tr,
+                  "C1",
+                  "Upper-Indermediate",
+                  "#fe8a71",
+                  false,
+                ]
+              );
+            });
+
+            advanced.map((res) => {
+              const id: any = Guid.create();
+              tx.executeSql(
+                "INSERT INTO words (id,en,tr,level,levelName,levelColor,learned) VALUES  (:id,:en,:tr,:level,:levelName,:levelColor,:learned)",
+                [id.value, res.en, res.tr, "C2", "Advanced", "#E770D4", false]
               );
             });
           });
@@ -195,6 +255,7 @@ const learnWord = (word: string) => {
       .toPromise();
   };
 };
+//select level,Count(*) as 'LearnedCount', levelName from words where learned = 0 GROUP BY level;
 
 const learnLevelCount = () => {
   return (dispatch: any) => {
@@ -209,7 +270,7 @@ const learnLevelCount = () => {
           return resDb.transaction(function (tx) {
             return tx
               .executeSql(
-                `select level ,Count(*) as 'LearnedCount' from words where learned = 1 GROUP BY level;`
+                `select level,Count(*) as 'totalWordCount',levelName,sum(learned) as 'learnedCount',levelColor from words GROUP BY level;`
               )
               .then((result: any) => {
                 if (result && result[1].rows) {
@@ -218,11 +279,8 @@ const learnLevelCount = () => {
                     const element = result[1].rows.item(index);
                     selectItems.push(element);
                   }
-
                   dispatch(setLevelCount(selectItems));
-                  //console.log("learnLevelCount", selectItems);
                 }
-
                 return result;
               })
               .catch((e) => {

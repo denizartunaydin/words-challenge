@@ -15,13 +15,17 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { DbSettings } from "../core/db";
 import { QuizService } from "../quiz/store/quiz.service";
 import { setCategory } from "../quiz/store/quiz.action";
+import { QuizStateModel } from "../quiz/store/quiz.store";
 
 const HomeScreen = (props: Props) => {
   useEffect(() => {
     props.createDatabase();
+    props.learnLevelCount();
   }, []);
 
   const navigation = useNavigation();
+
+  console.log(props.categories);
 
   return (
     <>
@@ -44,8 +48,8 @@ const HomeScreen = (props: Props) => {
           >
             <TouchableOpacity
               onPress={() => {
-                props.learnLevelCount();
                 //navigation.navigate("Setting");
+                DbSettings.dropTable();
               }}
               style={{
                 borderRadius: 10,
@@ -56,72 +60,30 @@ const HomeScreen = (props: Props) => {
             </TouchableOpacity>
           </View>
         </View>
-        <CategoryItem
-          title="Beginner"
-          totalWords={beginner.length}
-          learnedWords={0}
-          onPress={() => {
-            props.setCategory("A1");
-            navigation.navigate("Quiz");
-          }}
-          style={{ backgroundColor: "#AFA2F9" }}
-        ></CategoryItem>
-        <CategoryItem
-          title="Elementary"
-          totalWords={elementary.length}
-          learnedWords={0}
-          onPress={() => {
-            props.setCategory("A2");
-            navigation.navigate("Quiz");
-          }}
-          style={{ backgroundColor: "#17B8DA" }}
-        ></CategoryItem>
-        <CategoryItem
-          title="Pre-Intermediate"
-          totalWords={preIntermediate.length}
-          learnedWords={0}
-          onPress={() => {
-            props.setCategory("B1");
-            navigation.navigate("Quiz");
-          }}
-          style={{ backgroundColor: "#BBCD2B" }}
-        ></CategoryItem>
-        <CategoryItem
-          title="Intermediate"
-          totalWords={intermediate.length}
-          learnedWords={0}
-          onPress={() => {
-            props.setCategory("B2");
-            navigation.navigate("Quiz");
-          }}
-          style={{ backgroundColor: "#f6cd61" }}
-        ></CategoryItem>
-        <CategoryItem
-          title="Upper-Indermediate"
-          totalWords={upperIntermediate.length}
-          learnedWords={0}
-          onPress={() => {
-            props.setCategory("C1");
-            navigation.navigate("Quiz");
-          }}
-          style={{ backgroundColor: "#fe8a71" }}
-        ></CategoryItem>
-        <CategoryItem
-          title="Advanced"
-          totalWords={advanced.length}
-          learnedWords={0}
-          onPress={() => {
-            props.setCategory("C2");
-            navigation.navigate("Quiz");
-          }}
-          style={{ backgroundColor: "#E770D4" }}
-        ></CategoryItem>
+        {props.categories.map((category: any) => {
+          return (
+            <>
+              <CategoryItem
+                title={category.levelName}
+                totalWords={category.totalWordCount}
+                learnedWords={category.learnedCount}
+                onPress={() => {
+                  props.setCategory(category.level);
+                  navigation.navigate("Quiz");
+                }}
+                style={{ backgroundColor: category.levelColor }}
+              ></CategoryItem>
+            </>
+          );
+        })}
       </View>
     </>
   );
 };
 
-const mapStateToProps = ({}: {}) => ({});
+const mapStateToProps = ({ quiz }: { quiz: QuizStateModel }) => ({
+  categories: quiz.categories,
+});
 
 const mapDispatchToProps = (dispatch: any) => ({
   getAllWords: () => dispatch(QuizService.getAllWords()),
@@ -133,6 +95,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 });
 
 type Props = {
+  categories: any;
   getAllWords: () => any;
   getCategoryWords: (level: string) => any;
   setCategory: (category: string) => any;
