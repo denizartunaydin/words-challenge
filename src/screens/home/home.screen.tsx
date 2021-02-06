@@ -1,21 +1,23 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ViewStyle,
+  Platform,
+} from "react-native";
 
 import { connect } from "react-redux";
 import CategoryItem from "../../components/wg.category.component";
-import { advanced } from "../../words/advanced";
-import { beginner } from "../../words/beginner";
-import { elementary } from "../../words/elementary";
-import { intermediate } from "../../words/intermediate";
-import { preIntermediate } from "../../words/pre-intermediate";
-import { upperIntermediate } from "../../words/upper-intermediate";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { DbSettings } from "../core/db";
 import { QuizService } from "../quiz/store/quiz.service";
 import { setCategory } from "../quiz/store/quiz.action";
 import { QuizStateModel } from "../quiz/store/quiz.store";
+import { ScrollView } from "react-native-gesture-handler";
 
 const HomeScreen = (props: Props) => {
   useEffect(() => {
@@ -25,7 +27,10 @@ const HomeScreen = (props: Props) => {
 
   const navigation = useNavigation();
 
-  console.log(props.categories);
+  var iosBar: ViewStyle = {};
+  if (Platform.OS === "ios") {
+    iosBar = { marginTop: 30 };
+  }
 
   return (
     <>
@@ -37,7 +42,7 @@ const HomeScreen = (props: Props) => {
           ...styles.center,
         }}
       >
-        <View style={{ flexDirection: "row", marginBottom: 20 }}>
+        <View style={{ flexDirection: "row", marginBottom: 20, ...iosBar }}>
           <Text style={{ color: "#fff", fontSize: 30 }}>Words Challenge</Text>
           <View
             style={{
@@ -48,8 +53,8 @@ const HomeScreen = (props: Props) => {
           >
             <TouchableOpacity
               onPress={() => {
-                //navigation.navigate("Setting");
-                DbSettings.dropTable();
+                navigation.navigate("Setting");
+                //DbSettings.dropTable();
               }}
               style={{
                 borderRadius: 10,
@@ -60,22 +65,26 @@ const HomeScreen = (props: Props) => {
             </TouchableOpacity>
           </View>
         </View>
-        {props.categories.map((category: any) => {
-          return (
-            <>
-              <CategoryItem
-                title={category.levelName}
-                totalWords={category.totalWordCount}
-                learnedWords={category.learnedCount}
-                onPress={() => {
-                  props.setCategory(category.level);
-                  navigation.navigate("Quiz");
-                }}
-                style={{ backgroundColor: category.levelColor }}
-              ></CategoryItem>
-            </>
-          );
-        })}
+        <ScrollView>
+          <View>
+            {props.categories.map((category: any) => {
+              return (
+                <>
+                  <CategoryItem
+                    title={category.levelName}
+                    totalWords={category.totalWordCount}
+                    learnedWords={category.learnedCount}
+                    onPress={() => {
+                      props.setCategory(category.level);
+                      navigation.navigate("Quiz");
+                    }}
+                    style={{ backgroundColor: category.levelColor }}
+                  ></CategoryItem>
+                </>
+              );
+            })}
+          </View>
+        </ScrollView>
       </View>
     </>
   );
