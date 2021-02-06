@@ -16,10 +16,17 @@ interface SetLevelCountActionType {
   payload: [];
 }
 
+export const SET_DAY_WORD = "SET_DAY_WORD";
+interface SetDayWordActionType {
+  type: typeof SET_DAY_WORD;
+  payload: number;
+}
+
 export type QuizActionTypes =
   | SetDataActionType
   | SetCategoryActionType
-  | SetLevelCountActionType;
+  | SetLevelCountActionType
+  | SetDayWordActionType;
 
 export function setData(payload: any): QuizActionTypes {
   return {
@@ -38,6 +45,13 @@ export function setCategory(payload: string): QuizActionTypes {
 export function setLevelCount(payload: any): QuizActionTypes {
   return {
     type: SET_LEVEL_COUNT,
+    payload: payload,
+  };
+}
+
+export function setDayWord(payload: number): QuizActionTypes {
+  return {
+    type: SET_DAY_WORD,
     payload: payload,
   };
 }

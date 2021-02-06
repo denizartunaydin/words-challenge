@@ -10,14 +10,51 @@ import {
 } from "react-native";
 
 import { connect } from "react-redux";
+import { getItem, setItem, STORAGE_KEYS } from "../../storage/storage.service";
+import { setDayWord } from "../quiz/store/quiz.action";
+import { QuizStateModel } from "../quiz/store/quiz.store";
 
 const SettingScreen = (props: Props) => {
   const navigation = useNavigation();
 
   var iosBar: ViewStyle = {};
+  var five: ViewStyle = {};
+  var ten: ViewStyle = {};
+  var fifteen: ViewStyle = {};
+
   if (Platform.OS === "ios") {
     iosBar = { marginTop: 30 };
   }
+
+  function setDayWord(count: string) {
+    setItem(STORAGE_KEYS.DAY_WORD, count).then((res: any) => {
+      getItem(STORAGE_KEYS.DAY_WORD).then((res) => {
+        console.log(res);
+        if (res !== null) {
+          props.setDayWord(Number(res));
+          navigation.goBack();
+        }
+      });
+    });
+  }
+
+  switch (props.dayWords) {
+    case 5:
+      five = { backgroundColor: "#29A19C" };
+      break;
+
+    case 10:
+      ten = { backgroundColor: "#29A19C" };
+      break;
+    case 15:
+      fifteen = { backgroundColor: "#29A19C" };
+      break;
+
+    default:
+      break;
+  }
+
+  console.log(props.dayWords);
 
   return (
     <>
@@ -37,14 +74,32 @@ const SettingScreen = (props: Props) => {
               Günlük Kelime Hedefi
             </Text>
             <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity style={{ ...styles.todayWordButton }}>
-                <Text style={{ color: "#fff", fontSize: 16 }}> 5 Kelime</Text>
+              <TouchableOpacity
+                onPress={() => setDayWord("5")}
+                style={{ ...styles.todayWordButton, ...five }}
+              >
+                <Text style={{ color: "#fff", fontSize: 16, ...five }}>
+                  {" "}
+                  5 Kelime
+                </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={{ ...styles.todayWordButton }}>
-                <Text style={{ color: "#fff", fontSize: 16 }}> 10 Kelime</Text>
+              <TouchableOpacity
+                onPress={() => setDayWord("10")}
+                style={{ ...styles.todayWordButton, ...ten }}
+              >
+                <Text style={{ color: "#fff", fontSize: 16, ...ten }}>
+                  {" "}
+                  10 Kelime
+                </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={{ ...styles.todayWordButton }}>
-                <Text style={{ color: "#fff", fontSize: 16 }}> 15 Kelime</Text>
+              <TouchableOpacity
+                onPress={() => setDayWord("15")}
+                style={{ ...styles.todayWordButton, ...fifteen }}
+              >
+                <Text style={{ color: "#fff", fontSize: 16, ...fifteen }}>
+                  {" "}
+                  15 Kelime
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -54,6 +109,11 @@ const SettingScreen = (props: Props) => {
             <Text style={{ color: "#fff", fontSize: 20 }}>
               Seviyeleri Sıfırla
             </Text>
+            <Text style={{ color: "#fff", fontSize: 16, marginTop: 10 }}>
+              Seviye sıfırlama işleminde öğrendiğiniz tüm kelimeleri öğrenmemiş
+              durumuna gelinmektedir. Bu işlemi yapınca geri dönüşü
+              bulunmamaktadır o yüzden dikkat edilmelidir.
+            </Text>
           </View>
 
           {/* Words Challenge Hakkında */}
@@ -62,7 +122,11 @@ const SettingScreen = (props: Props) => {
               Words Challenge Hakkında
             </Text>
             <Text style={{ color: "#fff", fontSize: 16, marginTop: 10 }}>
-              10 Kelime
+              Günlük hedeflerinizi kendiniz belirleyerek kelimeleri öğrenmekte
+              ve tekrar etmenize yardımcı olmaktadır. Günlük tanımlanan
+              kelimeler kadar yeni kelime öğrenmenizi sağlarken hedefe
+              ulaştıktan sonra öğrendiğiniz kelimeleri size tekrardan sorarak
+              kelimleri hafınazınızda tutmanıza yardımcı olur.
             </Text>
           </View>
 
@@ -70,6 +134,10 @@ const SettingScreen = (props: Props) => {
           <View style={{ marginTop: 30 }}>
             <Text style={{ color: "#fff", fontSize: 20 }}>
               Destek ve Yardım
+            </Text>
+
+            <Text style={{ color: "#fff", fontSize: 16, marginTop: 10 }}>
+              Proje Yöneticisi: Deniz Artun Aydın
             </Text>
             <Text style={{ color: "#fff", fontSize: 16, marginTop: 10 }}>
               E-Posta: denizartunaydin@gmail.com
@@ -81,11 +149,18 @@ const SettingScreen = (props: Props) => {
   );
 };
 
-const mapStateToProps = ({}: {}) => ({});
+const mapStateToProps = ({ quiz }: { quiz: QuizStateModel }) => ({
+  dayWords: quiz.dayWords,
+});
 
-const mapDispatchToProps = (dispatch: any) => ({});
+const mapDispatchToProps = (dispatch: any) => ({
+  setDayWord: (payload: number) => dispatch(setDayWord(payload)),
+});
 
-type Props = {};
+type Props = {
+  dayWords: number;
+  setDayWord: (payload: number) => any;
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingScreen);
 

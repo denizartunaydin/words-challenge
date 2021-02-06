@@ -30,4 +30,5 @@ export function clear() {
 
 export const STORAGE_KEYS = {
   WORDS: "WORDS",
+  DAY_WORD: "DAY_WORD",
 };

@@ -14,7 +14,10 @@ import { beginner } from "../words/beginner";
 const CategoryItem = (props: Props) => {
   const window = Dimensions.get("window");
 
-  const barPercent: number = (props.learnedWords / props.totalWords) * 100;
+  const barPercent: number = Math.round(
+    (props.learnedWords / props.totalWords) * 100
+  );
+
   const percent: string = barPercent.toString() + "%";
   return (
     <>

@@ -18,11 +18,19 @@ import { QuizService } from "../quiz/store/quiz.service";
 import { setCategory } from "../quiz/store/quiz.action";
 import { QuizStateModel } from "../quiz/store/quiz.store";
 import { ScrollView } from "react-native-gesture-handler";
+import { getItem, STORAGE_KEYS } from "../../storage/storage.service";
 
 const HomeScreen = (props: Props) => {
   useEffect(() => {
     props.createDatabase();
     props.learnLevelCount();
+
+    getItem(STORAGE_KEYS.DAY_WORD).then((res) => {
+      console.log(res);
+      if (res === null) {
+        navigation.navigate("Setting");
+      }
+    });
   }, []);
 
   const navigation = useNavigation();
@@ -92,6 +100,7 @@ const HomeScreen = (props: Props) => {
 
 const mapStateToProps = ({ quiz }: { quiz: QuizStateModel }) => ({
   categories: quiz.categories,
+  dayWords: quiz.dayWords,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -105,6 +114,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 
 type Props = {
   categories: any;
+  dayWords: number;
   getAllWords: () => any;
   getCategoryWords: (level: string) => any;
   setCategory: (category: string) => any;

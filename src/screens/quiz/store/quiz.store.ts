@@ -2,6 +2,7 @@ import {
   QuizActionTypes,
   SET_CATEGORY,
   SET_DATA,
+  SET_DAY_WORD,
   SET_LEVEL_COUNT,
 } from "./quiz.action";
 
@@ -20,7 +21,7 @@ const initialState: QuizStateModel = {
   selectWordTr: "",
   choiceOne: "",
   choiceTwo: "",
-  dayWords: 5,
+  dayWords: 0,
   category: "",
   categories: [],
 };
@@ -49,6 +50,12 @@ export function quizReducer(
       return {
         ...state,
         categories: action.payload,
+      };
+
+    case SET_DAY_WORD:
+      return {
+        ...state,
+        dayWords: action.payload,
       };
 
     default:
