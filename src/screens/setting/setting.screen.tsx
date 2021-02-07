@@ -104,18 +104,6 @@ const SettingScreen = (props: Props) => {
             </View>
           </View>
 
-          {/* Level Sıfırla */}
-          <View style={{ marginTop: 30 }}>
-            <Text style={{ color: "#fff", fontSize: 20 }}>
-              Seviyeleri Sıfırla
-            </Text>
-            <Text style={{ color: "#fff", fontSize: 16, marginTop: 10 }}>
-              Seviye sıfırlama işleminde öğrendiğiniz tüm kelimeleri öğrenmemiş
-              durumuna gelinmektedir. Bu işlemi yapınca geri dönüşü
-              bulunmamaktadır o yüzden dikkat edilmelidir.
-            </Text>
-          </View>
-
           {/* Words Challenge Hakkında */}
           <View style={{ marginTop: 30 }}>
             <Text style={{ color: "#fff", fontSize: 20 }}>
@@ -141,6 +129,18 @@ const SettingScreen = (props: Props) => {
             </Text>
             <Text style={{ color: "#fff", fontSize: 16, marginTop: 10 }}>
               E-Posta: denizartunaydin@gmail.com
+            </Text>
+          </View>
+
+          {/* Level Sıfırla */}
+          <View style={{ marginTop: 30 }}>
+            <Text style={{ color: "#fff", fontSize: 20 }}>
+              Seviyeleri Sıfırla
+            </Text>
+            <Text style={{ color: "#fff", fontSize: 16, marginTop: 10 }}>
+              Seviye sıfırlama işleminde öğrendiğiniz tüm kelimeleri öğrenmemiş
+              durumuna gelinmektedir. Bu işlemi yapınca geri dönüşü
+              bulunmamaktadır o yüzden dikkat edilmelidir.
             </Text>
           </View>
         </View>

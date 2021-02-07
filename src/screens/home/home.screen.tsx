@@ -15,7 +15,7 @@ import CategoryItem from "../../components/wg.category.component";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { DbSettings } from "../core/db";
 import { QuizService } from "../quiz/store/quiz.service";
-import { setCategory } from "../quiz/store/quiz.action";
+import { setCategory, setDayWord } from "../quiz/store/quiz.action";
 import { QuizStateModel } from "../quiz/store/quiz.store";
 import { ScrollView } from "react-native-gesture-handler";
 import { getItem, STORAGE_KEYS } from "../../storage/storage.service";
@@ -26,7 +26,7 @@ const HomeScreen = (props: Props) => {
     props.learnLevelCount();
 
     getItem(STORAGE_KEYS.DAY_WORD).then((res) => {
-      console.log(res);
+      props.setDayWord(Number(res));
       if (res === null) {
         navigation.navigate("Setting");
       }
@@ -110,6 +110,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   setCategory: (category: string) => dispatch(setCategory(category)),
   createDatabase: () => dispatch(DbSettings.createDatabase()),
   learnLevelCount: () => dispatch(QuizService.learnLevelCount()),
+  setDayWord: (payload: number) => dispatch(setDayWord(payload)),
 });
 
 type Props = {
@@ -120,6 +121,7 @@ type Props = {
   setCategory: (category: string) => any;
   createDatabase: () => any;
   learnLevelCount: () => any;
+  setDayWord: (payload: number) => any;
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
