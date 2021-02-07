@@ -1,0 +1,4 @@
+#Sun Feb 07 10:49:22 EET 2021
+base.0=/Users/rspc/Documents/Projects/Words Challenge/android/app/build/intermediates/dex/release/mergeDexRelease/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

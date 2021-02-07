@@ -10,6 +10,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1454499244/WordGame.react-native-reanimated.iml" filepath="$PROJECT_DIR$/.idea/modules/-1454499244/WordGame.react-native-reanimated.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2048398031/WordGame.react-native-safe-area-context.iml" filepath="$PROJECT_DIR$/.idea/modules/-2048398031/WordGame.react-native-safe-area-context.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1583356279/WordGame.react-native-screens.iml" filepath="$PROJECT_DIR$/.idea/modules/-1583356279/WordGame.react-native-screens.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1999878358/WordGame.react-native-sqlite-storage.iml" filepath="$PROJECT_DIR$/.idea/modules/-1999878358/WordGame.react-native-sqlite-storage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/601849455/WordGame.react-native-vector-icons.iml" filepath="$PROJECT_DIR$/.idea/modules/601849455/WordGame.react-native-vector-icons.iml" />
     </modules>
   </component>
 </project>

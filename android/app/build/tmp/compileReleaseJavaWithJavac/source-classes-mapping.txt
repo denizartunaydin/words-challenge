@@ -1,0 +1,9 @@
+com/wordgame/BuildConfig.java
+ com.wordgame.BuildConfig
+com/wordgame/MainApplication.java
+ com.wordgame.MainApplication
+ com.wordgame.MainApplication$1
+com/wordgame/MainActivity.java
+ com.wordgame.MainActivity
+com/facebook/react/PackageList.java
+ com.facebook.react.PackageList
