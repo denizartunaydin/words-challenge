@@ -1,6 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  BackHandler,
+} from "react-native";
 
 import { connect } from "react-redux";
 import AnswerItem from "../../components/wg.answer.component";
@@ -41,6 +48,7 @@ const QuizScreen = (props: Props) => {
           {
             text: "Hayır",
             onPress: () => {
+              props.learnLevelCount();
               navigation.goBack();
             },
             style: "cancel",
@@ -90,6 +98,11 @@ const QuizScreen = (props: Props) => {
       wordGenerate();
     }, 500);
   }
+
+  BackHandler.addEventListener("hardwareBackPress", function () {
+    props.learnLevelCount();
+    return false;
+  });
 
   return (
     <>
@@ -144,6 +157,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   getDayWords: (category: string, learned: number) =>
     dispatch(QuizService.getDayWords(category, learned)),
   learnWord: (word: string) => dispatch(QuizService.learnWord(word)),
+  learnLevelCount: () => dispatch(QuizService.learnLevelCount()),
 });
 
 type Props = {
@@ -157,6 +171,7 @@ type Props = {
   setData: (payload: any) => any;
   getDayWords: (category: string, learned: number) => any;
   learnWord: (word: string) => any;
+  learnLevelCount: () => any;
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuizScreen);
