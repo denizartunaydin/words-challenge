@@ -35,6 +35,7 @@ const QuizScreen = (props: Props) => {
 
   function learnWord() {
     if (props.dayWords <= wordCount.wordCountField) {
+      setlearnedWord(true);
       Alert.alert(
         "Uyarı",
         "Günlük kelime hedefine ulaştın. Öğrendiğin kelimeleri tekrar etmek istiyor musun? ",

@@ -114,7 +114,6 @@ const getAllWords = () => {
               .executeSql(`select * from words;`)
               .then((result: any) => {
                 if (result[1].rows.length === 0) {
-                  console.log("gggggggggg");
                   return dispatch(QuizService.saveAllWords());
                 } else if (result && result[1].rows) {
                   let selectItems = [];
@@ -122,7 +121,6 @@ const getAllWords = () => {
                     const element = result[1].rows.item(index);
                     selectItems.push(element);
                   }
-                  console.log(selectItems);
                 }
 
                 return result;
@@ -214,7 +212,6 @@ const getCategoryWords = (level: string) => {
                     const element = result[1].rows.item(index);
                     selectItems.push(element);
                   }
-                  console.log("Category", selectItems);
                 }
 
                 return result;

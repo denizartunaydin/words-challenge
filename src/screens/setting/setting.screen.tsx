@@ -29,7 +29,6 @@ const SettingScreen = (props: Props) => {
   function setDayWord(count: string) {
     setItem(STORAGE_KEYS.DAY_WORD, count).then((res: any) => {
       getItem(STORAGE_KEYS.DAY_WORD).then((res) => {
-        console.log(res);
         if (res !== null) {
           props.setDayWord(Number(res));
           navigation.goBack();
@@ -53,8 +52,6 @@ const SettingScreen = (props: Props) => {
     default:
       break;
   }
-
-  console.log(props.dayWords);
 
   return (
     <>
