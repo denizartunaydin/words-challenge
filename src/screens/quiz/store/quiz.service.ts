@@ -85,13 +85,13 @@ const saveAllWords = () => {
               );
             });
 
-            advanced.map((res) => {
-              const id: any = Guid.create();
-              tx.executeSql(
-                "INSERT INTO words (id,en,tr,level,levelName,levelColor,learned) VALUES  (:id,:en,:tr,:level,:levelName,:levelColor,:learned)",
-                [id.value, res.en, res.tr, "C2", "Advanced", "#E770D4", false]
-              );
-            });
+            // advanced.map((res) => {
+            //   const id: any = Guid.create();
+            //   tx.executeSql(
+            //     "INSERT INTO words (id,en,tr,level,levelName,levelColor,learned) VALUES  (:id,:en,:tr,:level,:levelName,:levelColor,:learned)",
+            //     [id.value, res.en, res.tr, "C2", "Advanced", "#E770D4", false]
+            //   );
+            // });
           });
         })
       )

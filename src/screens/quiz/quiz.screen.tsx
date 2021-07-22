@@ -33,9 +33,14 @@ const QuizScreen = (props: Props) => {
 
   const [learnedWord, setlearnedWord] = useState(false);
 
+  BackHandler.addEventListener("hardwareBackPress", function () {
+    props.learnLevelCount();
+    return false;
+  });
+
   function learnWord() {
     if (props.dayWords <= wordCount.wordCountField) {
-      setlearnedWord(true);
+      setlearnedWord(false);
       Alert.alert(
         "Uyarı",
         "Günlük kelime hedefine ulaştın. Öğrendiğin kelimeleri tekrar etmek istiyor musun? ",
@@ -68,6 +73,7 @@ const QuizScreen = (props: Props) => {
   }
 
   function wordGenerate() {
+    console.log(learnedWord);
     if (learnedWord === true) {
       props.getDayWords(props.selectCategory, 1);
     } else {
